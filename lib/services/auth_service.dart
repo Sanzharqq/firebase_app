@@ -1,42 +1,42 @@
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-
-// class AuthService {
-//   signInWithGoogle() async {
-//     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-
-//     final GoogleSignInAuthentication gAuth = await gUser!.authentication;
-
-//     final credential = GoogleAuthProvider.credential(
-//       accessToken: gAuth.accessToken,
-//       idToken: gAuth.idToken,
-//     );
-
-//     return await FirebaseAuth.instance.signInWithCredential(credential);
-//   }
-// }
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auther/pages/home.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AuthService {
-  signInWithGoogle() async {
-    if (kIsWeb) {
-      GoogleAuthProvider googleProvider = GoogleAuthProvider();
-      googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+  // Мы добавили context сюда:
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      if (kIsWeb) {
+        GoogleAuthProvider googleProvider = GoogleAuthProvider();
+        googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
-      return await FirebaseAuth.instance.signInWithPopup(googleProvider);
-    } else {
-      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+        await FirebaseAuth.instance.signInWithPopup(googleProvider);
+      } else {
+        final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
-      final credential = GoogleAuthProvider.credential(
-        accessToken: gAuth.accessToken,
-        idToken: gAuth.idToken,
+        if (gUser == null) return;
+
+        final GoogleSignInAuthentication gAuth = await gUser.authentication;
+
+        final credential = GoogleAuthProvider.credential(
+          accessToken: gAuth.accessToken,
+          idToken: gAuth.idToken,
+        );
+
+        await FirebaseAuth.instance.signInWithCredential(credential);
+      }
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
       );
-
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      print("Ошибка входа: $e");
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Ошибка входа: $e')));
     }
   }
 }

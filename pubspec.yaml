@@ -2,7 +2,7 @@ name: firebase_auther
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -34,7 +34,9 @@ dependencies:
   firebase_core: ^3.13.0
   firebase_auth: ^5.5.3
   google_sign_in: ^6.3.0
-  
+  google_maps_flutter: ^2.2.5 
+  provider: ^6.0.5
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -45,7 +47,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -54,6 +55,24 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/images/
+    - images/mountain4ik.jpg
+    - images/bali.jpg
+    - images/brazil.jpg
+    - images/Kabul.jpg
+    - images/mali.jpg
+    - images/profile.jpg
+    - images/Spain.jpg
+    - images/Taraz.jpg
+    - images/ak.jpg
+    - images/bayan.jpg
+    - images/sh.jpg
+    - images/bozzhyra.jpg
+    - images/burabay.jpg
+    - images/charyn.jpeg
+    - images/khodja.jpg
+    - images/kolsay.jpg
+    - images/shymbulak.jpeg
+
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -64,9 +83,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Bold.ttf
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

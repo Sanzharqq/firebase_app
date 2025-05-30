@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auther/components/my_button.dart';
 import 'package:firebase_auther/components/my_textfield.dart';
 import 'package:firebase_auther/components/square_tile.dart';
+import 'package:firebase_auther/pages/home.dart';
 import 'package:firebase_auther/pages/home_page.dart';
 import 'package:firebase_auther/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final ConfirmPasswordController = TextEditingController();
 
-  // sign user up method
   void signUserUp(BuildContext context) async {
-    // show loading circle
     showDialog(
       context: context,
       builder: (context) {
@@ -30,9 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
       },
     );
 
-    // try sign in
     try {
-      // check if pass is confirmed
       if (passwordController.text == ConfirmPasswordController.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
@@ -42,19 +39,13 @@ class _RegisterPageState extends State<RegisterPage> {
         showErrorMessage("Passwords don't match!");
       }
 
-      // Переход на домашнюю страницу при успешном входе
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       showErrorMessage(e.code);
-      // String errorMessage;
     }
   }
 
-  //error message to user
   void showErrorMessage(String message) {
     showDialog(
       context: context,
@@ -72,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color.fromARGB(255, 29, 3, 44),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -82,14 +73,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 25),
 
                 //logo
-                Icon(Icons.lock, size: 50),
-
+                Image.asset("lib/images/sapar.png", width: 230),
                 SizedBox(height: 25),
 
                 //welcomess back you're been missed!
                 Text(
                   'Let\'s create an account for you!',
-                  style: TextStyle(color: Colors.grey[700], fontSize: 16),
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    fontSize: 20,
+                  ),
                 ),
 
                 const SizedBox(height: 25),
@@ -120,20 +113,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 const SizedBox(height: 10),
 
-                //forgot password?
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
-
                 const SizedBox(height: 25),
 
                 //sign in button
@@ -145,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     padding: const EdgeInsets.all(25),
                     margin: const EdgeInsets.symmetric(horizontal: 25),
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: const Color.fromARGB(255, 113, 17, 190),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Center(
@@ -175,7 +154,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
                           'Or continue with',
-                          style: TextStyle(color: Colors.grey[700]),
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 16, 146, 197),
+                          ),
                         ),
                       ),
                       Expanded(
@@ -193,14 +174,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     //google button
                     SquareTile(
-                      onTap: () => AuthService().signInWithGoogle(),
+                      onTap: () => AuthService().signInWithGoogle(context),
                       imagePath: 'lib/images/google.png',
                     ),
 
                     SizedBox(width: 25),
-
-                    //apple button
-                    SquareTile(onTap: () {}, imagePath: 'lib/images/apple.png'),
                   ],
                 ),
 
@@ -212,13 +190,15 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     Text(
                       'Already have an account?',
-                      style: TextStyle(color: Colors.grey[700]),
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                      ),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
                       child: const Text(
-                        'Login mow',
+                        'Login now',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
